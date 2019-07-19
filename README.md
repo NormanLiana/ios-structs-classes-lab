@@ -2,19 +2,19 @@
 
 Fork and clone this repo. On your fork, answer and commit the follow questions. When you are finished, submit the link to your repo on Canvas.
 
-
 ## Question 1
 
 Given this class that represents a giant:
 
 ```swift
 class Giant {
- var name: String = "Fred"
- var weight: Double = 340.0
- let homePlanet: String = "Earth"
+var name: String = "Fred"
+var weight: Double = 340.0
+let homePlanet: String = "Earth"
 }
 
 let fred = Giant()
+
 ```
 
 Will these three lines of code run? If not, why not?
@@ -23,9 +23,25 @@ Will these three lines of code run? If not, why not?
 fred.name = "Brick"
 fred.weight = 999.2
 fred.homePlanet = "Mars"
+
+// This will not run because 'homePlanet' is a constant
 ```
 
 Fix the class definition for `Giant` in the space below so that it **does** work:
+
+```swift
+class Giant {
+var name: String = "Fred"
+var weight: Double = 340.0
+var homePlanet: String = "Earth"
+}
+
+let fred = Giant()
+
+fred.name = "Brick"
+fred.weight = 999.2
+fred.homePlanet = "Mars"
+```
 
 
 ## Question 2
@@ -47,10 +63,24 @@ Will these three lines of code run? If so, why not?
 bilbo.name = "Jake"
 bilbo.height = 1.42
 bilbo.homePlanet = "Saturn"
+
+// This will not run because 'bilbo' is a contant.
 ```
 
 Change the declaration of `bilbo` so that the above three lines of code **do** work:
 
+```swift
+struct Alien {
+var name: String
+var height: Double
+var homePlanet: String
+}
+var bilbo = Alien(name: "Bilbo", height: 1.67, homePlanet: "Venus")
+
+bilbo.name = "Jake"
+bilbo.height = 1.42
+bilbo.homePlanet = "Saturn"
+```
 
 ## Question 3
 
@@ -65,6 +95,7 @@ jason.name = "Jason"
 
 What will the value of `edgar.name` be after those three lines of code are run? What will the value of `jason.name` be? Why?
 
+The value of both of these will be 'Jason'. Because classes create reference types that save in memory.
 
 ## Question 4
 
@@ -77,6 +108,8 @@ charlesFromJupiter.homePlanet = "Jupiter"
 ```
 
 What will the value of `charles.homePlanet` be after the above code run? What about the value of `charlesFromJupiter.homePlanet`? Why?
+
+`charles.homePlanet`  will have a value of Pluto and `charlesFromJupiter.homePlanet` will be Jupiter. This is a struct so it has value types and when they are reassigned they are not saved in one part of memory.
 
 
 ## Question 5
@@ -100,7 +133,24 @@ struct BankAccount {
 
 Does this code work? Why or why not?
 
+It does not work, because with structs you can not mutate their properties. With the two functions in our struct, we want them to be able to adjust the balance and this would not be possible without adding the mutating keyword.
+
 Fix the `BankAccount` struct so it does work.
+
+```swift
+struct BankAccount {
+var owner: String
+var balance: Double
+
+mutating func deposit(_ amount: Double) {
+balance += amount
+}
+
+mutating func withdraw(_ amount: Double) {
+balance -= amount
+}
+}
+```
 
 Given the code below (which should incorporate any fixes you made):
 
@@ -112,10 +162,24 @@ joeAccount.withdraw(50.0)
 
 What will the value of `joeAccount.balance` be after the above code runs? What about the value of `joeOtherAccount.balance`? Why?
 
+`joeAccount.balance` will be 50.0 because there was a withdraw made of 50.0. However  `joeOtherAccount.balance` would be 100.0 because we made a copy of the Joe's account before it was mutated with the withdraw of 50.0.
+
 
 ## Question 6
 
 a. Write a struct called `Person` that has 3 properties of type `String`: a first name, a last name and a middle name. Have the middle name be optional. Create 2 instances of a `Person`, one with a middle name and one without. Print one of their first names.
+
+```swift
+struct Person {
+var firstName: String
+var middleName: String?
+var lastName: String
+}
+
+var liana = Person.init(firstName: "Liana", middleName: nil, lastName: "Norman")
+var lianaWithHerMiddleName = Person.init(firstName: "Liana", middleName: "Yasmin", lastName: "Norman")
+print("\(liana.firstName)")
+```
 
 
 b. Write a method in `Person` called `fullName` that will return a formatted string of an instance's full name. Call this method on both the instances you created in part a.
